@@ -9,6 +9,7 @@ import 'package:surf_practice_chat_flutter/config/app_launcher.dart';
 import 'package:surf_practice_chat_flutter/config/localize_helper.dart';
 import 'package:surf_practice_chat_flutter/data/chat/repository/firebase.dart';
 import 'package:surf_practice_chat_flutter/firebase_options.dart';
+import 'package:surf_practice_chat_flutter/presentation/viewmodels/main_view_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +30,9 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       Provider(create: (_) => chatRepository),
+      ChangeNotifierProvider(
+        create: (_) => MainViewModel(chatRepository),
+      ),
       ChangeNotifierProvider(
           lazy: false,
           create: (_) =>
