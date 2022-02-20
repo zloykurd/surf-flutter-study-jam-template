@@ -8,15 +8,7 @@ class MainViewModel extends BaseViewModel {
   final ChatRepository _repository;
 
   MainViewModel(this._repository) {
-    _state = MainViewState(items: []);
-  }
-
-  Future<void> _loadData() async {
-    _state = _state.copyWith(items: _state.items, isLoading: true);
-    notifyListeners();
-    var messages = await _repository.messages;
-    _state = _state.copyWith(items: messages, isLoading: false);
-    notifyListeners();
+    _state = MainViewState(items: [], isLoadingSendMessage: false);
   }
 
   List<ChatMessageDto> getItems() {
@@ -31,13 +23,37 @@ class MainViewModel extends BaseViewModel {
     return _state.isLoading;
   }
 
+  bool sendMessageInProgress() {
+    return _state.isLoadingSendMessage;
+  }
+
   Future<void> updateChatListAsync() async {
-    await _loadData();
+    try {
+      _state = _state.copyWith(items: _state.items, isLoading: true);
+      notifyListeners();
+      var messages = await _repository.messages;
+      _state = _state.copyWith(items: messages, isLoading: false);
+    } catch (e) {
+      print(e);
+      _state = _state.copyWith(items: _state.items, isLoading: false);
+    } finally {
+      notifyListeners();
+    }
   }
 
   Future<void> sendMessage(String user, String message) async {
-    var result = await _repository.sendMessage(user, message);
-    _state = _state.copyWith(items: result, isLoading: false);
-    notifyListeners();
+    try {
+      _state = _state.copyWith(items: _state.items, isLoadingSendMessage: true);
+      notifyListeners();
+      var result = await _repository.sendMessage(user, message);
+      _state = _state.copyWith(items: result, isLoadingSendMessage: false);
+    } catch (e) {
+      _state =
+          _state.copyWith(items: _state.items, isLoadingSendMessage: false);
+    } finally {
+      _state =
+          _state.copyWith(items: _state.items, isLoadingSendMessage: false);
+      notifyListeners();
+    }
   }
 }

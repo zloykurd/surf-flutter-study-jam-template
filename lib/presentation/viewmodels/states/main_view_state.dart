@@ -3,10 +3,12 @@ import 'package:surf_practice_chat_flutter/presentation/viewmodels/states/base_s
 
 class MainViewState extends BaseState {
   final List<ChatMessageDto> items;
+  final bool isLoadingSendMessage;
 
   MainViewState({
     required this.items,
     bool isLoading = false,
+    required this.isLoadingSendMessage,
     String error = "",
   }) : super(isLoading: isLoading, error: error);
 
@@ -14,10 +16,12 @@ class MainViewState extends BaseState {
     List<ChatMessageDto>? items,
     String? error,
     bool? isLoading,
+    bool? isLoadingSendMessage,
   }) {
     return MainViewState(
         items: items ?? this.items,
         error: error ?? this.error,
+        isLoadingSendMessage: isLoadingSendMessage ?? this.isLoadingSendMessage,
         isLoading: isLoading ?? this.isLoading);
   }
 }
