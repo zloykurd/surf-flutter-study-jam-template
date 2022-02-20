@@ -16,6 +16,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  final _controller = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -24,12 +26,14 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var model = context.watch<MainViewModel>();
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: Container(
-          child: model.inProgress() ? _progress() : _messages(model.getItems()),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
+        body: Column(
+          children: [
+            _appBar(),
+            _body(),
+          ],
         ),
       ),
     );
@@ -48,19 +52,54 @@ class _MainScreenState extends State<MainScreen> {
       return const NotNetworkConnectionWidget();
     }
 
-    return ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index) {
-          final model = items[index];
-          return ChatMessageWidget(
-            model: model,
-          );
-        });
+    return Expanded(
+      child: ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (BuildContext context, int index) {
+            final model = items[index];
+            return ChatMessageWidget(
+              model: model,
+            );
+          }),
+    );
+  }
+
+  Widget _appBar() {
+    var textStyle =
+        Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white70);
+    return Container(
+      color: Theme.of(context).appBarTheme.backgroundColor,
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+                controller: _controller,
+                style: textStyle,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintStyle: textStyle,
+                  hintText: _setText(Strings.hint_login),
+                )),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: IconButton(
+                onPressed: _loadData,
+                icon: const Icon(
+                  Icons.refresh,
+                  color: Colors.white,
+                )),
+          )
+        ],
+      ),
+    );
   }
 
   Widget _progress() {
-    return const Center(
-      child: CircularProgressIndicator(),
+    return const Expanded(
+      child: Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 
@@ -71,5 +110,10 @@ class _MainScreenState extends State<MainScreen> {
   void _loadData() async {
     var model = context.read<MainViewModel>();
     await model.updateChatListAsync();
+  }
+
+  Widget _body() {
+    var model = context.watch<MainViewModel>();
+    return model.inProgress() ? _progress() : _messages(model.getItems());
   }
 }

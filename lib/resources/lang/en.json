@@ -1,5 +1,6 @@
 {
   "title_app_name": "MyChatApp",
+  "title_login": "login",
   "hint_login": "Enter login",
   "hint_message": "Message ...",
   "message_list_is_empty": "There is no data",
