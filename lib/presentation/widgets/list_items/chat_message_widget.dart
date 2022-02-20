@@ -1,5 +1,6 @@
 import 'package:core/models/dtos/message/chat_message_dto.dart';
 import 'package:flutter/material.dart';
+import 'package:surf_practice_chat_flutter/extensions/string_extensions.dart';
 
 class ChatMessageWidget extends StatefulWidget {
   final ChatMessageDto model;
@@ -22,7 +23,6 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
           item.author.name.characters.first.toUpperCase(),
           style: _theme.textTheme.headline5?.copyWith(color: Colors.white),
         ),
-
         radius: 30,
       ),
       title: Text(
@@ -30,7 +30,7 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
         style: _theme.textTheme.headline5,
       ),
       subtitle: Text(
-        item.message,
+        "${item.message}\n${item.createdDateTime.toString().toDateFormat()} ",
         style: _theme.textTheme.bodyText1,
       ),
     );

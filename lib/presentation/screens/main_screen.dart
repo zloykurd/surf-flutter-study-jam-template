@@ -18,7 +18,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final _username = TextEditingController();
+  final _username = TextEditingController(text: "Иван Иванов");
   final _message = TextEditingController();
 
   @override
@@ -42,9 +42,13 @@ class _MainScreenState extends State<MainScreen> {
   Widget _messages(List<ChatMessageDto> items) {
     if (items.isEmpty) {
       var title = _setText(Strings.message_list_is_empty);
-      return Text(
-        title,
-        style: const TextStyle(color: Colors.black),
+      return Expanded(
+        child: Center(
+          child: Text(
+            title,
+            style: const TextStyle(color: Colors.black),
+          ),
+        ),
       );
     }
     var appConfig = context.read<AppConfiguration>();
@@ -120,6 +124,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget _inputMessage() {
     var textStyle = Theme.of(context).textTheme.bodyText1;
     var primary = Theme.of(context).colorScheme.primary;
+    var model = context.watch<MainViewModel>();
     return Card(
       child: Row(
         children: [
@@ -144,12 +149,14 @@ class _MainScreenState extends State<MainScreen> {
           ),
           Padding(
             padding: const EdgeInsets.all(12.0),
-            child: IconButton(
-                onPressed: _onSendMessagePressed,
-                icon: const Icon(
-                  Icons.send,
-                  color: Colors.black,
-                )),
+            child: model.sendMessageInProgress()
+                ? _progress()
+                : IconButton(
+                    onPressed: _onSendMessagePressed,
+                    icon: Icon(
+                      Icons.send,
+                      color: Colors.black,
+                    )),
           )
         ],
       ),
@@ -165,6 +172,6 @@ class _MainScreenState extends State<MainScreen> {
       var model = context.read<MainViewModel>();
       await model.sendMessage(user, message);
       _message.clear();
-    } else {}
+    }
   }
 }
