@@ -1,7 +1,7 @@
 class GlobalConstants {
-  static const androidKey = "AIzaSyCXU5f25S_SUeVv7cAzoeF373kHk4Hv2dE";
-  static const iosKey = "AIzaSyAjvNoe31ZMSakjKFOkhbrZBsj3RyW6plo";
-  static const webKey = "AIzaSyD40PR_fizjSYtCZEtXgwq_5LdJu2w2zIs";
+  static const androidKey = "AIzaSyAgleMBLWGeOQHnGpAyCMDsxoz4CdK46Fg";
+  static const iosKey = "AIzaSyCn005OVun4NhDkvTpjhNjhTvAQPUPgGHU";
+  static const webKey = "AIzaSyDaj-LxNcWd4Onq0WcjsB7c-6O3F-onHgU";
   static const localeKey = "localeKey";
   static const String isDarkThemeKey = "isDarkThemeKey";
   static const String languageResourcePathKey = "languageResourcePathKey";
