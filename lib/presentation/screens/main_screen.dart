@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:core/models/dtos/message/chat_message_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +18,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final _controller = TextEditingController();
+  final _username = TextEditingController();
+  final _message = TextEditingController();
 
   @override
   void initState() {
@@ -30,10 +33,7 @@ class _MainScreenState extends State<MainScreen> {
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         body: Column(
-          children: [
-            _appBar(),
-            _body(),
-          ],
+          children: [_appBar(), _body(), _inputMessage()],
         ),
       ),
     );
@@ -73,7 +73,7 @@ class _MainScreenState extends State<MainScreen> {
         children: [
           Expanded(
             child: TextField(
-                controller: _controller,
+                controller: _username,
                 style: textStyle,
                 decoration: InputDecoration(
                   border: InputBorder.none,
@@ -115,5 +115,56 @@ class _MainScreenState extends State<MainScreen> {
   Widget _body() {
     var model = context.watch<MainViewModel>();
     return model.inProgress() ? _progress() : _messages(model.getItems());
+  }
+
+  Widget _inputMessage() {
+    var textStyle = Theme.of(context).textTheme.bodyText1;
+    var primary = Theme.of(context).colorScheme.primary;
+    return Card(
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: IconButton(
+                onPressed: _loadData,
+                icon: Icon(
+                  Icons.share_location_outlined,
+                  color: primary,
+                )),
+          ),
+          Expanded(
+            child: TextField(
+                controller: _message,
+                style: textStyle,
+                decoration: InputDecoration(
+                  //border: InputBorder.none,
+                  hintStyle: textStyle,
+                  hintText: _setText(Strings.hint_message),
+                )),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: IconButton(
+                onPressed: _onSendMessagePressed,
+                icon: const Icon(
+                  Icons.send,
+                  color: Colors.black,
+                )),
+          )
+        ],
+      ),
+    );
+  }
+
+  void _onSendMessagePressed() async {
+    var user = _username.text.toString().trim();
+    var message = _message.text.toString().trim();
+    log("message $message");
+    log("user $user");
+    if (user.isNotEmpty && message.isNotEmpty) {
+      var model = context.read<MainViewModel>();
+      await model.sendMessage(user, message);
+      _message.clear();
+    } else {}
   }
 }
