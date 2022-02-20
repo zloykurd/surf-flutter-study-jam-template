@@ -12,8 +12,10 @@ class MainViewModel extends BaseViewModel {
   }
 
   Future<void> _loadData() async {
+    _state = _state.copyWith(items: _state.items, isLoading: true);
+    notifyListeners();
     var messages = await _repository.messages;
-    _state = _state.copyWith(items: messages);
+    _state = _state.copyWith(items: messages, isLoading: false);
     notifyListeners();
   }
 

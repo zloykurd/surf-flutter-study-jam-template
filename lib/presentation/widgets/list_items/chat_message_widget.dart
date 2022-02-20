@@ -1,7 +1,10 @@
+import 'package:core/models/dtos/message/chat_message_dto.dart';
 import 'package:flutter/material.dart';
 
 class ChatMessageWidget extends StatefulWidget {
-  const ChatMessageWidget({Key? key}) : super(key: key);
+  final ChatMessageDto model;
+
+  const ChatMessageWidget({Key? key, required this.model}) : super(key: key);
 
   @override
   _ChatMessageWidgetState createState() => _ChatMessageWidgetState();
@@ -10,6 +13,26 @@ class ChatMessageWidget extends StatefulWidget {
 class _ChatMessageWidgetState extends State<ChatMessageWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    final item = widget.model;
+    var _theme = Theme.of(context);
+    return ListTile(
+      leading: CircleAvatar(
+        //child: Icon(Icons.person),
+        child: Text(
+          item.author.name.characters.first.toUpperCase(),
+          style: _theme.textTheme.headline5?.copyWith(color: Colors.white),
+        ),
+
+        radius: 30,
+      ),
+      title: Text(
+        item.author.name,
+        style: _theme.textTheme.headline5,
+      ),
+      subtitle: Text(
+        item.message,
+        style: _theme.textTheme.bodyText1,
+      ),
+    );
   }
 }

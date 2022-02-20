@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:surf_practice_chat_flutter/config/app_configuration.dart';
 import 'package:surf_practice_chat_flutter/extensions/string_extensions.dart';
 import 'package:surf_practice_chat_flutter/presentation/viewmodels/main_view_model.dart';
+import 'package:surf_practice_chat_flutter/presentation/widgets/list_items/chat_message_widget.dart';
 import 'package:surf_practice_chat_flutter/presentation/widgets/not_network_connection_widget.dart';
 import 'package:surf_practice_chat_flutter/resources/strings.dart';
 
@@ -48,13 +49,11 @@ class _MainScreenState extends State<MainScreen> {
     }
 
     return ListView.builder(
-        itemExtent: 170,
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
-          final item = items[index];
-          return ListTile(
-            title: Text(item.message),
-            subtitle: Text(item.author.name),
+          final model = items[index];
+          return ChatMessageWidget(
+            model: model,
           );
         });
   }
