@@ -1,0 +1,9 @@
+{
+  "title_app_name": "MyChatApp",
+  "hint_login":"Enter login",
+  "hint_message":"Message ...",
+  "error_internet_connection_failed": "There is no internet connection!",
+  "error_is_max_limit": "Field length limit reached",
+  "error_field_is_empty": "The field is not filled",
+  "error_invalid_field_length": "Invalid field length"
+}
