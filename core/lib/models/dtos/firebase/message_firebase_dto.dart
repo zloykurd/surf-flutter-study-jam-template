@@ -31,7 +31,7 @@ class MessageFirebaseDto {
       authorName: map[authorNameKey] as String,
       message: map[messageKey] as String,
       created: (map[createdKey] as Timestamp).toDate(),
-      geolocation: map[geolocationKey] as GeoPoint,
+      geolocation: map[geolocationKey] as GeoPoint?,
     );
   }
 
