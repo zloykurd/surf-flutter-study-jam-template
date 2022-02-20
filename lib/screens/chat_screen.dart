@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:surf_practice_chat_flutter/data/chat/repository/repository.dart';
 
 /// Chat screen templete. This is your starting point.
@@ -18,7 +17,9 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
-    // TODO(task): Use ChatRepository to implement the chat.
-    throw UnimplementedError();
+    return Scaffold(
+      appBar: AppBar(),
+      body: Container(),
+    );
   }
 }
