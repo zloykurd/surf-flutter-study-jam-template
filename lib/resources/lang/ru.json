@@ -1,5 +1,6 @@
 {
   "title_app_name": "Мой Чат",
+  "title_login": "Ник",
   "hint_login": "Введите ник",
   "hint_message": "Сообщение ...",
   "message_list_is_empty": "Нет данных",

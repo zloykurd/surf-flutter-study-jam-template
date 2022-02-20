@@ -34,4 +34,10 @@ class MainViewModel extends BaseViewModel {
   Future<void> updateChatListAsync() async {
     await _loadData();
   }
+
+  Future<void> sendMessage(String user, String message) async {
+    var result = await _repository.sendMessage(user, message);
+    _state = _state.copyWith(items: result, isLoading: false);
+    notifyListeners();
+  }
 }
